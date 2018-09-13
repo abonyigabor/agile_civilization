@@ -1,0 +1,59 @@
+<html !DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Légy a legagilisabb leader!</title>
+
+    <link rel="stylesheet" href="css/dragula.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+<script src='js/dragula.min.js'></script>
+
+</head>
+<body class="" onload="ready();">
+    <section class="phases-infobar">
+        <div class="resources"></div>
+        <div class="points">
+            <div class="value">
+                <span>999</span>
+            </div>
+        </div>
+        <div class="time" onclick="window.scrollTo(0,1);">
+            <div class="value">
+                <span>00:00</span>
+            </div>
+        </div>
+    </section>
+    <section class="board">
+    </section>
+    <div id="popup" class="loading">
+        <div class="popup_text loading_text">
+            <h1>Betöltés</h1>
+        </div>
+        <div class="popup_text welcome">
+            <h1>Légy a legagilisabb leader!</h1>
+            <p>Üdvözlünk!</p>
+            <p onclick="start_game();" class="start_button">Induljon a játék!</p>
+        </div>
+        <div class="popup_text win">
+            <h1>Gratulálunk!</h1>
+            <p>Teljesítetted a játékot.</p>
+            <p>FONTOS: Kérj meg egy segítőt, hogy rögzítse a pontjaidat, és segíts másoknak elmagyarázni a szabályokat!</p>
+        </div>
+    </div>
+<!--<script src='js/engine.js'></script>!-->
+
+<script>
+function ready() {
+    document.querySelector('#popup').className = "welcome";
+//    init_game();
+}
+
+function start_game() {
+    document.querySelector('#popup').className = "hidden";
+}
+</script>
+</body>
+</html>
