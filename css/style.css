@@ -1,3 +1,26 @@
+@font-face {
+    font-family: stoneAge;
+    src: url('../fonts/stoneage/stoneage.otf');
+}
+
+@font-face {
+    font-family: ironAge;
+    src: url('../fonts/ironage/ironage.ttf');
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+html, body, div {
+    margin: 0;
+    padding: 0;
+}
+
 #popup {
     display: block;
     visibility: visible;
@@ -33,7 +56,7 @@
         display: none;
         font-size: 2em;
     }
-    
+
         #popup .popup_text p.start_button {
             font-size: 1.5em;
             background-color: #888;
@@ -55,18 +78,298 @@
         display: block;
     }
 
-html, 
 body {
-    height: 100%;
-    width: 100%;
+    display: grid;
+    grid: " board " 80vh
+          "infobar" 20vh
+          / auto;
 }
 
-html, body, div {
-    margin: 0;
-    padding: 0;
+@keyframes tossing {
+	0% {transform: rotate(-4deg);}
+	50% {transform: rotate(4deg);}
+	100% {transform: rotate(-4deg);}						
 }
 
-html, body {
-    position: absolute;
-    overflow: hidden;
+section.infobar {
+    grid-area: infobar;
+    background-image: url(../images/util/stoneAgeInfobar.jpg);
+    display: grid;
+    grid: "workers workers taskinfo" 1fr
+          "points  time    taskinfo" 4vh
+          / 1fr    1fr     2fr;
 }
+
+    section.infobar > .points {
+        grid-area: points;
+        background-color: rgba(255,255,255,0.6);
+        font-size: 4vh;
+        text-align: center;
+    }
+
+    section.infobar > .time {
+        grid-area: time;
+        background-color: rgba(255,255,255,0.6);
+        font-size: 4vh;
+        text-align: center;
+    }
+
+    section.infobar > .workers {
+        grid-area: workers;
+        display: grid;
+        grid: ".  .  .  .  .  .  .  .  .  .  .  .  ." 0.25vh
+              ".  w1 w1 w1 .  w2 w2 w2 .  w3 w3 w3 ." 1fr
+              ".  .  .  .  .  .  .  .  .  .  .  .  ." 0.5vh
+              ".  .  .  w4 w4 w4 .  w5 w5 w5 .  .  ." 1fr
+              ".  .  .  .  .  .  .  .  .  .  .  .  ." 0.25vh
+             / 0.25vh 0.5vh 1fr 1fr 0.5vh 1fr 0.5vh 1fr 0.5vh 1fr 1fr 0.5vh 0.25vh;
+    }
+    
+        section.infobar > .workers > .worker:nth-of-type(1){grid-area: w1;}
+        section.infobar > .workers > .worker:nth-of-type(2){grid-area: w2;}
+        section.infobar > .workers > .worker:nth-of-type(3){grid-area: w3;}
+        section.infobar > .workers > .worker:nth-of-type(4){grid-area: w4;}
+        section.infobar > .workers > .worker:nth-of-type(5){grid-area: w5;}
+    
+        section.infobar > .workers > .worker {
+            display: grid;
+            grid: "name name name" 1fr
+                  "yes  no   icon" 3vh
+                  "xp   xp   icon" 2vh
+                 / 1fr  1fr  5vh;
+            background-color: rgba(128, 128, 128, 0.6);
+            border: 2px solid #aaa;
+        }
+        
+            section.infobar > .workers > .worker > .name {
+                grid-area: name;
+                font-size: 2vh;
+                line-height: 2vh;
+                font-family: stoneAge;
+            }
+
+            section.infobar > .workers > .worker > .xp {
+                grid-area: xp;
+                display: grid;
+                grid: "the" 1fr
+                     / 1fr;
+            }
+
+                section.infobar > .workers > .worker > .xp > .state {
+                    grid-area: the;
+                    background-color: #ADD;
+                    transition: width 0.2s ease-out;
+                }
+
+                section.infobar > .workers > .worker > .xp > .value {
+                    grid-area: the;
+                    text-align: center;
+                }
+
+            section.infobar > .workers > .worker > .yes {
+                grid-area: yes;
+            }
+
+            section.infobar > .workers > .worker > .no {
+                grid-area: no;
+            }
+
+            section.infobar > .workers > .worker > .yes,
+            section.infobar > .workers > .worker > .no {
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+            }
+
+                section.infobar > .workers > .worker > .yes.avail {
+                    background-image: url(../images/util/check.png);
+                    background-color: #8F84;
+                    cursor: pointer;
+                }
+
+                section.infobar > .workers > .worker > .no.avail {
+                    background-image: url(../images/util/cancel.png);
+                    background-color: #F884;
+                    cursor: pointer;
+                }
+
+            section.infobar > .workers > .worker > .stamina {
+                grid-area: icon;
+                align-self: end;
+                transition: height 0.2s ease-out;
+            }
+
+                section.infobar > .workers > .worker > .icon {
+                grid-area: icon;
+                background-image: url(../images/util/stoneAgeMan.png);
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+
+                section.infobar > .workers > .worker.working > .icon {
+                    animation-name: tossing;
+                    animation-duration: 2.5s;	
+                    animation-iteration-count: infinite;
+                }
+
+    section.infobar > .taskInfo {
+        grid-area: taskinfo;
+        background-color: rgba(160, 160, 160, 0.6);
+        display: grid;
+        grid: "name name bonus_time   time" 1fr
+              "icon desc bonus_reward reward" 4vh
+              "icon desc bonus_desc   bonus_desc" 8vh
+              "prog prog prog   prog" 2vh
+             / 12vh auto 10vh   10vh;
+    }
+    
+    section.infobar > .taskInfo.hidden {
+        display: none;
+    }
+    
+        section.infobar > .taskInfo > * {
+            /*border: 1px solid #000;*/
+            overflow: hidden;
+        }
+        
+        section.infobar > .taskInfo > .time,
+        section.infobar > .taskInfo > .bonus_time,
+        section.infobar > .taskInfo > .reward,
+        section.infobar > .taskInfo > .bonus_reward {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        section.infobar > .taskInfo.unknown > .time,
+        section.infobar > .taskInfo.unknown > .bonus_time,
+        section.infobar > .taskInfo.unknown > .reward,
+        section.infobar > .taskInfo.unknown > .bonus_reward {
+            display: none;
+        }
+
+        section.infobar > .taskInfo > .name {
+            grid-area: name;
+            font-size: 3vh;
+            font-family: stoneAge;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        section.infobar > .taskInfo > .time {
+            grid-area: time;
+            font-size: 4.5vh;
+        }
+
+        section.infobar > .taskInfo > .bonus_time {
+            grid-area: bonus_time;
+            font-size: 4.5vh;
+        }
+
+        section.infobar > .taskInfo > .bonus_desc {
+            grid-area: bonus_desc;
+        }
+
+        section.infobar > .taskInfo > .icon {
+            grid-area: icon;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 5%;
+        }
+
+            section.infobar > .taskInfo.unknown > .icon {background-image: url(../images/icon/unknown.png);}
+            section.infobar > .taskInfo.vacation > .icon {background-image: url(../images/icon/vacation.png);}
+            section.infobar > .taskInfo.support > .icon {background-image: url(../images/icon/support.png);}
+            section.infobar > .taskInfo.feature > .icon {background-image: url(../images/icon/feature.png);}
+            section.infobar > .taskInfo.bug > .icon {background-image: url(../images/icon/bugfix.png);}
+            section.infobar > .taskInfo.missed > .icon {background-image: url(../images/icon/missed.png);}
+            section.infobar > .taskInfo.finished > .icon {background-image: url(../images/icon/done.png);}
+
+        section.infobar > .taskInfo > .desc {
+            grid-area: desc;
+        }
+
+        section.infobar > .taskInfo > .reward {
+            grid-area: reward;
+            font-size: 3.5vh;
+        }
+
+        section.infobar > .taskInfo > .bonus_reward {
+            grid-area: bonus_reward;
+            font-size: 3.5vh;
+        }
+
+        section.infobar > .taskInfo > .progress,
+        section.infobar > .taskInfo > .progress_state {
+            grid-area: prog;
+        }
+        
+        section.infobar > .taskInfo.unknown > .progress,
+        section.infobar > .taskInfo.unknown > .progress_state,
+        section.infobar > .taskInfo.finished > .progress,
+        section.infobar > .taskInfo.finished > .progress_state {
+            display: none;
+        }
+        
+        section.infobar > .taskInfo > .progress_state {
+            transition: width 0.2s ease-out;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4) 100%, rgba(0, 0, 0, 0) 100%);
+        }
+
+section.board {
+    grid-area: board;
+    display: grid;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    background-image: url(../images/background/ground.jpg);
+    background-size: auto 100%;
+    background-repeat: repeat no-repeat;
+    background-attachment: local;
+}
+
+    section.board > .task
+    {
+        background-image: url(../images/icon/unknown.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        border-radius: 50%;
+        margin: 3% 10%;
+        cursor: pointer;
+        display: grid;
+        grid: ". .    ." 1fr
+              ". prog ." 1vh
+              ". .    ."    3fr
+              / 1fr 8fr 1fr;
+    }
+
+        section.board > .task.unknown {background-image: url(../images/icon/unknown.png);}
+        section.board > .task.vacation {background-image: url(../images/icon/vacation.png);}
+        section.board > .task.support {background-image: url(../images/icon/support.png);}
+        section.board > .task.feature {background-image: url(../images/icon/feature.png);}
+        section.board > .task.bug {background-image: url(../images/icon/bugfix.png);}
+        section.board > .task.missed {background-image: url(../images/icon/missed.png);}
+        section.board > .task.finished {background-image: url(../images/icon/done.png);}
+
+        section.board > .task.selected
+        {
+            background-color: rgba(0, 255, 205, 0.1);
+            box-shadow: 0px 0px 25px #FF0;
+        }
+
+        section.board > .task > .progress,
+        section.board > .task > .progress_state {
+            grid-area: prog;
+        }
+        
+        section.board > .task.unknown > .progress,
+        section.board > .task.unknown > .progress_state,
+        section.board > .task.finished > .progress,
+        section.board > .task.finished > .progress_state {
+            display: none;
+        }
+        section.board > .task > .progress_state {
+            transition: width 0.2s ease-out;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4) 100%, rgba(0, 0, 0, 0) 100%);
+        }
