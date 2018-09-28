@@ -5,27 +5,27 @@
 *****************************/
 
 class ResTask {
-	constructor(id, type, name, planAmount, implementAmount, testAmount, rewards, canStart) {
+	constructor(id, type, name, planAmount, implementAmount, testAmount, difficulty, rewards) {
 		this.id = id + '-' + Object.keys(ResData.tasks).length;
 		ResData.tasks[this.id] = this;
-        this.replace(type, name, planAmount, implementAmount, testAmount, rewards, canStart);
+        this.replace(type, name, planAmount, implementAmount, testAmount, difficulty, rewards);
 	}
 
-    replace(type, name, planAmount, implementAmount, testAmount, rewards, canStart) {
+    replace(type, name, planAmount, implementAmount, testAmount, difficulty, rewards) {
 		this.name = name;
 		this.name_id = ascii(name);
 		this.planAmount = planAmount;
 		this.implementAmount = implementAmount;
 		this.testAmount = testAmount;
+        this.difficulty = difficulty;
 		// Rewards {base:{r:100,t:120,d:''}, bonus: {r:300,t:25,d:''}}
         this.rewards = rewards;
 		this.planProgress = 0;
 		this.implementProgress = 0;
 		this.testProgress = 0;
         this.rewarded = false;
-		if (canStart) {
-			this.canStart = canStart;
-		}
+
+        this.originalType = type;
         this.setType(type);
 	}
 
@@ -44,10 +44,6 @@ class ResTask {
 		this.updateDOM();
 	}
 
-	canStart() {
-		return true;
-	}
-
 	get finished() {
 		return this.planProgress == this.planAmount
 		 && this.implementProgress == this.implementAmount
@@ -62,6 +58,7 @@ class ResTask {
 	}
 
 	addProgress(progress) {
+        progress /= this.difficulty;
 		if (this.planProgress + progress < this.planAmount) {
 			this.planProgress += progress;
 		} else {

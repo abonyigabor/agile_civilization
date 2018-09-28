@@ -46,10 +46,16 @@
             <p>Üdvözlünk!</p>
             <p onclick="start_game();" class="start_button">Induljon a játék!</p>
         </div>
-        <div class="popup_text win">
+        <div class="popup_text stoneAge">
             <h1>Gratulálunk!</h1>
-            <p>Teljesítetted a játékot.</p>
+            <p>Teljesítetted a szintet.</p>
             <p>FONTOS: Kérj meg egy segítőt, hogy rögzítse a pontjaidat, és segíts másoknak elmagyarázni a szabályokat!</p>
+            <p onclick="resume_game();" class="start_button">Folytatás!</p>
+        </div>
+        <div class="popup_text winAge">
+            <h1>Gratulálunk!</h1>
+            <p>FONTOS: Kérj meg egy segítőt, hogy rögzítse a pontjaidat, és segíts másoknak elmagyarázni a szabályokat!</p>
+            <p>Kijátszottad a játékot. Egyelőre ennyi. Ha tetszett, iratkozz fel a levelezőlistánkra, hogy értesülj a jövőbeli fejlesztésekről!</p>
         </div>
     </div>
 <script src='js/core.js'></script>
@@ -63,7 +69,7 @@ function ready() {
     document.querySelector('#popup').className = "welcome";
     init_game();
     // For DEBUG
-    start_game();
+    //start_game();
 }
 
 </script>

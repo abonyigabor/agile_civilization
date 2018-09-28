@@ -71,12 +71,12 @@ html, body, div {
             box-shadow: 2px 2px 20px #fff;
         }
 
-    #popup .popup_text.welcome {
-        display: block;
-    }
-    .win #popup .popup_text.win {
-        display: block;
-    }
+    #popup .popup_text.welcome {display: block;}
+    body.stoneAge #popup .popup_text.welcome,
+    body.winAge #popup .popup_text.welcome {display: none;}
+    
+    body.stoneAge #popup .popup_text.stoneAge {display: block;}
+    body.winAge #popup .popup_text.winAge {display: block;}
 
 body {
     display: grid;
@@ -372,6 +372,16 @@ section.board {
         section.board > .task.missed {background-image: url(../images/icon/missed.png);}
         section.board > .task.finished {background-image: url(../images/icon/done.png);}
 
+        section.board > .task.finished,
+        section.board > .task.bug,
+        section.board > .task.feature,
+        section.board > .task.missed,
+        section.board > .task.support {
+            animation-name: tossing;
+            animation-duration: 0.5s;	
+            animation-iteration-count: 2;
+        }
+                
         section.board > .task.selected
         {
             background-color: rgba(0, 255, 205, 0.1);

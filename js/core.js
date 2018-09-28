@@ -52,9 +52,9 @@ ResData.playerInfo = {
 	time_ui: 0,
 	points_ui: 1000
 };
-ResData.levels = new Array({style:'stoneAge',  time_limit: 300},
-                           {style:'ironAge',   time_limit: 300},
-                           {style:'modernAge', time_limit: 300});
+ResData.levels = new Array({style:'stoneAge', time_limit: 300},
+                           {style:'stoneAge', time_limit: 300},
+                           {style:'winAge',   time_limit: 300});
 
 function do_core_calc() {
     if(!ResData.playerInfo.ui_active) {
@@ -102,14 +102,15 @@ function do_core_calc() {
             if(fresh_workers.length > 0) {
                 var skill_sum = 0;
                 fresh_workers.forEach( function(worker, index) {
-                    worker.setStamina(worker.stamina - (0.4 / fresh_workers.length));
+                    worker.setStamina(worker.stamina - (0.8 / fresh_workers.length));
                     var skill = worker.xp;
                     skill_sum += Math.floor(skill);
-                    skill += 0.03 + 0.02 * (fresh_workers.length - 1);
+                    skill += 0.01 + 0.006 * (fresh_workers.length - 1);
                     worker.setXp(skill);
                 });
                 var progress = skill_sum * fresh_workers.length / (fresh_workers.length + 1)
                 task.addProgress(progress);
+                return;
             }
         }
         task.updateDOM();
@@ -124,6 +125,13 @@ function do_core_calc() {
 
     if(ResData.playerInfo.time > 0) {
         ResData.playerInfo.time--;
+    } else {
+        setTimeout(function(){end_age();}, 1000);
+    }
+
+    var openTasks = ResData.selectTasks(function(t){return !t.finished && t.type != ResData.taskTypes.Missed;});
+    if(openTasks.length < 2) {
+        addTask();
     }
 }
 
@@ -138,6 +146,29 @@ function start_game() {
         started = true;
         initTasks();
         initWorkers();
+        document.querySelector('#popup').className = 'hidden';
+        setTimeout(function(){ResData.playerInfo.ui_active = true;}, 1000);
+    }
+}
+
+function end_age() {
+    if(!started) {
+        return;
+    }
+    started = false;
+    ResData.playerInfo.ui_active = false;
+    document.querySelector('#popup').className = '';
+    ResData.playerInfo.level += 1;
+    do_core_calc();
+    var level = ResData.levels[ResData.playerInfo.level - 1];
+    if(level) {
+        ResData.playerInfo.time = level.time_limit;
+    }
+}
+
+function resume_game() {
+    if(!started || true) {
+        started = true;
         document.querySelector('#popup').className = 'hidden';
         setTimeout(function(){ResData.playerInfo.ui_active = true;}, 1000);
     }
