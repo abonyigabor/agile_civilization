@@ -3,10 +3,22 @@
             CONFIG
 
 *****************************/
+class Reward {
+	constructor(rewards) {
+        if(rewards.base) {
+            this.base = {r:rewards.base.r,t:rewards.base.t,d:rewards.base.d,s:rewards.base.s};
+        }
+        if(rewards.bonus) {
+            this.bonus = {r:rewards.bonus.r,t:rewards.bonus.t,d:rewards.bonus.d,s:rewards.bonus.s};
+        }
+	}
+}
 
 var uTasksNeeded = 14;
-var featureCounter = 0;
 var diff_multi = 1.0;
+var featureCounter = 0;
+var supportCounter = 0;
+var bugCounter = 0;
 var featureList = [
     [ResData.taskTypes.Feature, "Kunyhóépítés", 20, 60, 10, 1.0, {base:{r:100,t:110,d:'Építsünk házat...',s:'house'}, bonus: {r:300,t:30,d:'Ha gyorsan elkészül, többet ér!',s:'house' }}],
     [ResData.taskTypes.Feature, "Kunyhóépítés", 20, 60, 10, 1.0, {base:{r:100,t:110,d:'Építsünk házat...',s:'house'}, bonus: {r:300,t:30,d:'Ha gyorsan elkészül, többet ér!',s:'house' }}],
@@ -22,14 +34,20 @@ var featureList = [
     [ResData.taskTypes.Feature, "Mobiltelefon", 40, 20, 25, 1.0, {base:{r:400,t:70,d:'Honnan tudtad hogy itt vagyok?',s:'mobile'}, bonus: {r:1200,t:35,d:'Ha gyorsan elkészül, többet ér!',s:'mobile' }}],
     [ResData.taskTypes.Feature, "Robotkutya", 45, 10, 35, 1.0, {base:{r:500,t:50,d:'Intelligens, kikapcsolhato házikedvenc',s:'robot_pet'}, bonus: {r:2000,t:45,d:'Ha gyorsan elkészül, többet ér!',s:'robot_pet' }}],
     [ResData.taskTypes.Feature, "Robotkutya", 45, 10, 35, 1.0, {base:{r:500,t:50,d:'Intelligens, kikapcsolhato házikedvenc',s:'robot_pet'}, bonus: {r:2000,t:45,d:'Ha gyorsan elkészül, többet ér!',s:'robot_pet' }}]
-]
+];
 
-// Bug: bonus: ha elég gyorsan kijavítod, nem veszik észre.
+var supportList = [
+    [ResData.taskTypes.Support, "Dől a ház", 20, 60, 10, 1.0, {base:{r:300,t:110,d:'Lényeg, hogy álljon',s:'house'}, bonus: {r:100,t:30,d:'Gyorsan, mielőtt összedől!',s:'house' }}]
+];
+
+var bugList = [
+    [ResData.taskTypes.Bug, "Ha esik, beázik", 20, 60, 10, 1.0, {base:{r:200,t:30,d:'csöpög :(',s:'house'}}]
+];
+
 function initTasks() {
-    for(var i = 2; i <= uTasksNeeded + 3; ++i) {
+    for(var i = 1; i <= uTasksNeeded; ++i) {
         addUnknownTask();
     }
-    var uTasks = ResData.selectTasks(function(t){return t.type === ResData.taskTypes.Unknown;});
     addTask();
     addTask();
     addTask();
@@ -51,19 +69,40 @@ function addTask() {
         var uTasks = ResData.selectTasks(function(t){return t.type === ResData.taskTypes.Unknown;});
     }
     var taskToReplace = uTasks[0];
-    if(featureCounter >= featureList.length) {
-        featureCounter = 0;
-        diff_multi += 1.0;
+    var rand = Math.random();
+    // First 3 tasks to be feature
+    if(Object.keys(ResData.tasks).length < uTasksNeeded + 3 && featureCounter < 3) {
+        rand = 1;
     }
-    replaceTaskFromArray(taskToReplace, featureList[featureCounter]);
-    ++featureCounter;
+    if(rand < 0.1) {
+        if(bugCounter >= bugList.length) {
+            bugCounter = 0;
+            diff_multi += 1.0;
+        }
+        replaceTaskFromArray(taskToReplace, bugList[bugCounter]);
+        ++bugCounter;
+    } else if(rand < 0.3) {
+        if(supportCounter >= supportList.length) {
+            supportCounter = 0;
+            diff_multi += 1.0;
+        }
+        replaceTaskFromArray(taskToReplace, supportList[supportCounter]);
+        ++supportCounter;
+    } else {
+        if(featureCounter >= featureList.length) {
+            featureCounter = 0;
+            diff_multi += 1.0;
+        }
+        replaceTaskFromArray(taskToReplace, featureList[featureCounter]);
+        ++featureCounter;
+    }
 }
 
 function replaceTaskFromArray(taskToReplace, a, diff_multi) {
     if(!diff_multi) {
         diff_multi = 1.0;
     }
-    taskToReplace.replace(a[0],a[1],a[2],a[3],a[4],a[5] * diff_multi,a[6])
+    taskToReplace.replace(a[0],a[1],a[2],a[3],a[4],a[5] * diff_multi, new Reward(a[6]));
 }
 
 function initWorkers() {

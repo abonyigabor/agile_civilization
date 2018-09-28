@@ -20,6 +20,7 @@ class ResTask {
         this.difficulty = difficulty;
 		// Rewards {base:{r:100,t:120,d:''}, bonus: {r:300,t:25,d:''}}
         this.rewards = rewards;
+        this.time = 0;
 		this.planProgress = 0;
 		this.implementProgress = 0;
 		this.testProgress = 0;
@@ -28,6 +29,11 @@ class ResTask {
         this.originalType = type;
         this.setType(type);
 	}
+
+    resetTime() {
+        this.time = 0;
+        this.updateDOM();
+    }
 
     
 	DEBUG_finish() {
@@ -79,7 +85,7 @@ class ResTask {
 		}
         this.updateDOM()        
 	}
-    
+
     setType(type) {
         var wrapperDiv = document.getElementById(this.id);
         if (!wrapperDiv) {
@@ -93,14 +99,10 @@ class ResTask {
     }
 
     doTick() {
-        if(this.rewards.base.t > 0) {
-            --this.rewards.base.t;
-        }
-        if(this.rewards.bonus.t > 0) {
-            --this.rewards.bonus.t;
-        }
-        if(this.rewards.base.t == 0
+        ++this.time;
+        if(this.rewards.base.t <= this.time
           && this.type != ResData.taskTypes.Unknown
+          && this.type != ResData.taskTypes.Support
           && this.type != ResData.taskTypes.Finished
           && this.type != ResData.taskTypes.Missed) {
             this.setType(ResData.taskTypes.Missed);

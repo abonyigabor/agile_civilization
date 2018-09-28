@@ -23,6 +23,9 @@ function findParent(el, cls) {
 }
 
 function readableTime(timeInSeconds) {
+    if(timeInSeconds < 0) {
+        timeInSeconds = 0;
+    }
 	var prefix = '';
 	if (timeInSeconds < 0) {
 		timeInSeconds *= -1;
@@ -54,18 +57,17 @@ function updateTaskInfo(id) {
     updateWorkers();
 
     taskInfo.querySelector('.name').innerHTML = task.name;
-    taskInfo.querySelector('.time').innerHTML = readableTime(task.rewards.base.t);
+    taskInfo.querySelector('.time').innerHTML = readableTime(task.rewards.base.t - task.time);
 
     taskInfo.className = 'taskInfo ' + ResData.taskTypesRev[task.type];
     taskInfo.querySelector('.desc').innerHTML = task.rewards.base.d;
     taskInfo.querySelector('.reward').innerHTML = task.rewards.base.r;
-    if(task.rewards.bonus !== undefined) {
-        taskInfo.querySelector('.bonus_time').innerHTML = readableTime(task.rewards.bonus.t);
+    taskInfo.querySelector('.bonus_reward').className = 'bonus_reward';
+    if(task.rewards.bonus) {
+        taskInfo.querySelector('.bonus_time').innerHTML = readableTime(task.rewards.bonus.t - task.time);
         taskInfo.querySelector('.bonus_reward').innerHTML = task.rewards.bonus.r;
         taskInfo.querySelector('.bonus_desc').innerHTML = task.rewards.bonus.d;
-        if(task.rewards.bonus.t > 0) {
-            taskInfo.querySelector('.bonus_reward').className = 'bonus_reward';
-        } else {
+        if(task.rewards.bonus.t - task.time <= 0) {
             taskInfo.querySelector('.bonus_reward').className = 'bonus_reward missed';
         }
     } else {

@@ -309,8 +309,13 @@ section.infobar {
                 text-shadow: #8f8 0px 0px 3px;
             }
 
+            section.infobar > .taskInfo.support > .reward
+            {
+                color: #800;
+                text-shadow: #f88 0px 0px 3px;
+            }
+
             section.infobar > .taskInfo > .bonus_reward.missed,
-            section.infobar > .taskInfo.missed > .bonus_reward,
             section.infobar > .taskInfo.missed > .reward {
                 color: #000;
                 text-shadow: #fff 0px 0px 3px;
@@ -366,7 +371,7 @@ section.board {
 
         section.board > .task.unknown {background-image: url(../images/icon/unknown.png);}
         section.board > .task.vacation {background-image: url(../images/icon/vacation.png);}
-        section.board > .task.support {background-image: url(../images/icon/support.png);}
+        section.board > .task.support {background-image: url(../images/icon/support.png);background-color: #f846;}
         section.board > .task.feature {background-image: url(../images/icon/feature.png);}
         section.board > .task.bug {background-image: url(../images/icon/bugfix.png);}
         section.board > .task.missed {background-image: url(../images/icon/missed.png);}

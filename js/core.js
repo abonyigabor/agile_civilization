@@ -82,7 +82,7 @@ function do_core_calc() {
                         task.showReward(task.rewards.bonus.s);
                     }
                 }
-                if(task.rewards.base.t > 0) {
+                if(task.rewards.base.t > 0 && task.type == ResData.taskTypes.Support) {
                     reward_sum += task.rewards.base.r;
                     if(task.rewards.base.s) {
                         task.showReward(task.rewards.base.s);
@@ -95,6 +95,18 @@ function do_core_calc() {
             return;
         }
         task.doTick();
+
+        if(task.type == ResData.taskTypes.Support) {
+            if(task.rewards.base.t <= task.time) {
+                var reward_sum = -task.rewards.base.r;
+                ResData.playerInfo.points += Math.floor(reward_sum);
+                task.resetTime();
+                task.rewards.base.r = Math.floor(task.rewards.base.r * 1.5);
+                if(task.rewards.bonus) {
+                    task.rewards.bonus.t = 0;
+                }
+            }
+        }
         
         if(workers.length > 0) {
             var fresh_workers = new Array();
@@ -106,7 +118,7 @@ function do_core_calc() {
             if(fresh_workers.length > 0) {
                 var skill_sum = 0;
                 fresh_workers.forEach( function(worker, index) {
-                    worker.setStamina(worker.stamina - (0.8 / fresh_workers.length));
+                    worker.setStamina(worker.stamina - (1.6 / fresh_workers.length));
                     var skill = worker.xp;
                     skill_sum += Math.floor(skill);
                     skill += 0.01 + 0.006 * (fresh_workers.length - 1);
