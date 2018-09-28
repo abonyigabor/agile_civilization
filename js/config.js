@@ -42,10 +42,11 @@ function addTask() {
         var uTasks = ResData.selectTasks(function(t){return t.type === ResData.taskTypes.Unknown;});
     }
     var taskToReplace = uTasks[0];
-    if(featureCounter < featureList.length) {
-        replaceTaskFromArray(taskToReplace, featureList[featureCounter]);
-        ++featureCounter;
+    if(featureCounter >= featureList.length) {
+        featureCounter = 0;
     }
+    replaceTaskFromArray(taskToReplace, featureList[featureCounter]);
+    ++featureCounter;
 }
 
 function replaceTaskFromArray(taskToReplace, a) {
