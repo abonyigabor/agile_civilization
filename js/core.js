@@ -76,7 +76,7 @@ function do_core_calc() {
 
             if(!task.rewarded) {
                 var reward_sum = 0;
-                if(task.rewards.bonus.t > 0) {
+                if(task.rewards.bonus && task.rewards.bonus.t > 0) {
                     reward_sum += task.rewards.bonus.r;
                     if(task.rewards.bonus.s) {
                         task.showReward(task.rewards.bonus.s);
