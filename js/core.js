@@ -136,7 +136,7 @@ function do_core_calc() {
     }
 
     var openTasks = ResData.selectTasks(function(t){return !t.finished && t.type != ResData.taskTypes.Missed;});
-    if(openTasks.length < 2) {
+    if(openTasks.length < 3) {
         addTask();
     }
 }
