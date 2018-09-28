@@ -176,6 +176,5 @@ function resume_game() {
     if(!started || true) {
         started = true;
         document.querySelector('#popup').className = 'hidden';
-        setTimeout(function(){ResData.playerInfo.ui_active = true;}, 1000);
     }
 }
