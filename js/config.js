@@ -11,6 +11,7 @@ var featureList = [
     [ResData.taskTypes.Feature, "Kunyhóépítés", 20, 60, 10, 1.0, {base:{r:100,t:110,d:'Építsünk házat...',s:'house'}, bonus: {r:300,t:30,d:'Ha gyorsan elkészül, többet ér!',s:'house' }}],
     [ResData.taskTypes.Feature, "Kunyhóépítés", 20, 60, 10, 1.0, {base:{r:100,t:110,d:'Építsünk házat...',s:'house'}, bonus: {r:300,t:30,d:'Ha gyorsan elkészül, többet ér!',s:'house' }}],
     [ResData.taskTypes.Feature, "Rádió", 50, 20, 30, 1.0, {base:{r:200,t:100,d:'Jó reggelt Vietnám!',s:'radio'}, bonus: {r:500,t:35,d:'Ha gyorsan elkészül, többet ér!',s:'radio' }}],
+    [ResData.taskTypes.Feature, "Rádió", 50, 20, 30, 1.0, {base:{r:200,t:100,d:'Jó reggelt Vietnám!',s:'radio'}, bonus: {r:500,t:35,d:'Ha gyorsan elkészül, többet ér!',s:'radio' }}],
     [ResData.taskTypes.Feature, "Tárcsás telefon", 50, 10, 40, 1.0, {base:{r:250,t:100,d:'Watson jojjon ide, szuksegem van magara (Alexander Graham Bell)',s:'oldtelefon'}, bonus: {r:700,t:15,d:'Ha gyorsan elkészül, többet ér!',s:'oldtelefon' }}],
     [ResData.taskTypes.Feature, "Tárcsás telefon", 50, 10, 40, 1.0, {base:{r:250,t:100,d:'Watson jojjon ide, szuksegem van magara (Alexander Graham Bell)',s:'oldtelefon'}, bonus: {r:700,t:15,d:'Ha gyorsan elkészül, többet ér!',s:'oldtelefon' }}],
     [ResData.taskTypes.Feature, "Képrögzítés", 40, 20, 25, 1.0, {base:{r:300,t:110,d:'Felvegyelek?',s:'oldcamera'}, bonus: {r:900,t:20,d:'Ha gyorsan elkészül, többet ér!',s:'oldcamera' }}],
@@ -25,10 +26,11 @@ var featureList = [
 
 // Bug: bonus: ha elég gyorsan kijavítod, nem veszik észre.
 function initTasks() {
-    for(var i = 1; i <= uTasksNeeded + 2; ++i) {
+    for(var i = 2; i <= uTasksNeeded + 3; ++i) {
         addUnknownTask();
     }
     var uTasks = ResData.selectTasks(function(t){return t.type === ResData.taskTypes.Unknown;});
+    addTask();
     addTask();
     addTask();
 }
