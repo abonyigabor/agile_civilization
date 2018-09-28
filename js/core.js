@@ -80,9 +80,15 @@ function do_core_calc() {
                 var reward_sum = 0;
                 if(task.rewards.bonus.t > 0) {
                     reward_sum += task.rewards.bonus.r;
+                    if(task.rewards.bonus.s) {
+                        task.showReward(task.rewards.bonus.s);
+                    }
                 }
                 if(task.rewards.base.t > 0) {
                     reward_sum += task.rewards.base.r;
+                    if(task.rewards.base.s) {
+                        task.showReward(task.rewards.base.s);
+                    }
                 }
                 ResData.playerInfo.points += Math.floor(reward_sum);
                 task.rewarded = true;

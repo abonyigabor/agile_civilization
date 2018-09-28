@@ -107,8 +107,13 @@ class ResTask {
         }
     }
 
+    showReward(s) {
+        var wrapperDiv = document.getElementById(this.id);
+        wrapperDiv.className = wrapperDiv.className + ' ' + s;
+    }
+
 	createDOM() {
-        wrapperDiv = document.getElementById(this.id);
+        var wrapperDiv = document.getElementById(this.id);
         if (wrapperDiv == null) {
             var wrapperDiv = document.createElement('div');
         }

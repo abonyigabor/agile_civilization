@@ -381,7 +381,15 @@ section.board {
             animation-duration: 0.5s;	
             animation-iteration-count: 2;
         }
-                
+
+            section.board > .task.finished.house {background-image: url(../images/icon/house.png);}
+            section.board > .task.finished.radio {background-image: url(../images/icon/radio.png);}
+            section.board > .task.finished.oldtelefon {background-image: url(../images/icon/oldtelefon.png);}
+            section.board > .task.finished.oldcamera {background-image: url(../images/icon/oldcamera.png);}
+            section.board > .task.finished.satellite {background-image: url(../images/icon/satellite.png);}
+            section.board > .task.finished.mobile {background-image: url(../images/icon/mobile.png);}
+            section.board > .task.finished.robot_pet {background-image: url(../images/icon/robot_pet.png);}
+
         section.board > .task.selected
         {
             background-color: rgba(0, 255, 205, 0.1);
