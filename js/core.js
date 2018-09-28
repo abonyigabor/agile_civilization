@@ -52,9 +52,7 @@ ResData.playerInfo = {
 	time_ui: 0,
 	points_ui: 1000
 };
-ResData.levels = new Array({style:'stoneAge', time_limit: 300},
-                           {style:'stoneAge', time_limit: 300},
-                           {style:'winAge',   time_limit: 300});
+ResData.levels = new Array({style:'winAge', time_limit: 300});
 
 function do_core_calc() {
     if(!ResData.playerInfo.ui_active) {
