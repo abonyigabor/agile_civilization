@@ -6,13 +6,17 @@
 
 class ResTask {
 	constructor(id, type, name, planAmount, implementAmount, testAmount, rewards, canStart) {
-		this.id = id;
+		this.id = id + '-' + Object.keys(ResData.tasks).length;
+		ResData.tasks[this.id] = this;
+        this.replace(type, name, planAmount, implementAmount, testAmount, rewards, canStart);
+	}
+
+    replace(type, name, planAmount, implementAmount, testAmount, rewards, canStart) {
 		this.name = name;
 		this.name_id = ascii(name);
 		this.planAmount = planAmount;
 		this.implementAmount = implementAmount;
 		this.testAmount = testAmount;
-        this.type = type;
 		// Rewards {base:{r:100,t:120,d:''}, bonus: {r:300,t:25,d:''}}
         this.rewards = rewards;
 		this.planProgress = 0;
@@ -22,10 +26,10 @@ class ResTask {
 		if (canStart) {
 			this.canStart = canStart;
 		}
-
-		ResData.tasks[this.id] = this;
+        this.setType(type);
 	}
 
+    
 	DEBUG_finish() {
 		this.planProgress = this.planAmount;
 		this.implementProgress = this.implementAmount;
@@ -78,6 +82,18 @@ class ResTask {
 		}
         this.updateDOM()        
 	}
+    
+    setType(type) {
+        var wrapperDiv = document.getElementById(this.id);
+        if (!wrapperDiv) {
+            this.type = type;
+        } else {
+            wrapperDiv.className = wrapperDiv.className.replace(' ' + ResData.taskTypesRev[this.type], '');
+            this.type = type;
+            wrapperDiv.className += ' ' + ResData.taskTypesRev[this.type];
+            this.updateDOM();
+        }
+    }
 
     doTick() {
         if(this.rewards.base.t > 0) {
@@ -85,6 +101,12 @@ class ResTask {
         }
         if(this.rewards.bonus.t > 0) {
             --this.rewards.bonus.t;
+        }
+        if(this.rewards.base.t == 0
+          && this.type != ResData.taskTypes.Unknown
+          && this.type != ResData.taskTypes.Finished
+          && this.type != ResData.taskTypes.Missed) {
+            this.setType(ResData.taskTypes.Missed);
         }
     }
 
@@ -135,9 +157,7 @@ class ResTask {
         wrapperDiv.querySelector('.progress_state').style = 'width: ' + prog_status + '%';
 
         if(this.finished && this.type != ResData.taskTypes.Unknown && this.type != ResData.taskTypes.Finished) {
-            wrapperDiv.className = wrapperDiv.className.replace(' ' + ResData.taskTypesRev[this.type], '');
-            this.type = ResData.taskTypes.Finished;
-            wrapperDiv.className += ' ' + ResData.taskTypesRev[this.type];
+            this.setType(ResData.taskTypes.Finished);
         }
         
         if (wrapperDiv.classList.contains('selected')) {

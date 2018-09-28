@@ -106,11 +106,16 @@ class ResWorker {
         staminaValueDiv.style.backgroundColor = this.getStaminaColor();
         
         var task = ResData.findTask(ResData.selectedTask);
-        if(this.currentTask === ResData.selectedTask && task && !task.finished)
+        if(this.currentTask === ResData.selectedTask
+          && task
+          && !task.finished)
         {
             wrapperDiv.querySelector(".no").className = 'no avail';
             wrapperDiv.querySelector(".yes").className = 'yes';
-        } else if(this.currentTask === false && ResData.selectedTask != '' && !task.finished) {
+        } else if(this.currentTask === false
+                 && ResData.selectedTask != ''
+                 && !task.finished
+                 && task.type != ResData.taskTypes.Missed) {
             wrapperDiv.querySelector(".yes").className = 'yes avail';
             wrapperDiv.querySelector(".no").className = 'no';
         } else {

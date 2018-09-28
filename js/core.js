@@ -56,33 +56,6 @@ ResData.levels = new Array({style:'stoneAge',  time_limit: 300},
                            {style:'ironAge',   time_limit: 300},
                            {style:'modernAge', time_limit: 300});
 
-
-// Bug: bonus: ha elég gyorsan kijavítod, nem veszik észre.
-function initTasks() {
-    new ResTask("task-easy-" + leadingZero(1), ResData.taskTypes.Feature, "Első feladat", 20, 30, 40, {base:{r:100,t:120,d:'Ennek a feladatnak a lényege, hogy...'}, bonus: {r:300,t:20,d:'Ha gyorsan elkészül, többet ér!'}});
-    new ResTask("task-easy-" + leadingZero(2), ResData.taskTypes.Feature, "Második feladat", 40, 20, 25, {base:{r:100,t:120,d:'Ennek a feladatnak a lényege, hogy...'}, bonus: {r:300,t:25,d:'Ha gyorsan elkészül, többet ér!'}});
-    for(var i = 3; i <= 16; ++i)
-    {
-        new ResTask("unknwown-task-" + leadingZero(i), ResData.taskTypes.Unknown, "Még nem elérhető", 0, 0, 0, {base:{r:100,t:120,d:'Előbb a többi nyitott feladatot kell elvégezni.'}});
-    }
-
-    Object.keys(ResData.tasks).forEach( function(key) {
-      document.querySelector('.board').append(ResData.tasks[key].createDOM());
-    });
-}
-
-function initWorkers() {
-    new ResWorker(['Arisztotelész', 'Alfréd', 'Alan'],    2, 100);
-    new ResWorker(['Gilgames',      'Graham', 'Grace'],   2, 100);
-    new ResWorker(['Ikarosz',       'Ignác',  'Iwatani'], 2, 100);
-    new ResWorker(['Laukon',        'Lenoir', 'Larry'],   2, 100);
-    new ResWorker(['Euklidesz',     'Edison', 'Edward'],  2, 100);
-
-    Object.keys(ResData.workers).forEach( function(key) {
-      document.querySelector('section.infobar > .workers').append(ResData.workers[key].createDOM());
-    });
-}
-
 function do_core_calc() {
     if(!ResData.playerInfo.ui_active) {
         return;
@@ -113,8 +86,8 @@ function do_core_calc() {
                 }
                 ResData.playerInfo.points += Math.floor(reward_sum);
                 task.rewarded = true;
+                task.updateDOM();
             }
-            task.updateDOM();
             return;
         }
         task.doTick();

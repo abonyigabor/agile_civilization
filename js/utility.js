@@ -59,10 +59,15 @@ function updateTaskInfo(id) {
     taskInfo.className = 'taskInfo ' + ResData.taskTypesRev[task.type];
     taskInfo.querySelector('.desc').innerHTML = task.rewards.base.d;
     taskInfo.querySelector('.reward').innerHTML = task.rewards.base.r;
-    if(task.rewards.bonus && task.rewards.bonus.t > 0) {
+    if(task.rewards.bonus !== undefined) {
         taskInfo.querySelector('.bonus_time').innerHTML = readableTime(task.rewards.bonus.t);
         taskInfo.querySelector('.bonus_reward').innerHTML = task.rewards.bonus.r;
         taskInfo.querySelector('.bonus_desc').innerHTML = task.rewards.bonus.d;
+        if(task.rewards.bonus.t > 0) {
+            taskInfo.querySelector('.bonus_reward').className = 'bonus_reward';
+        } else {
+            taskInfo.querySelector('.bonus_reward').className = 'bonus_reward missed';
+        }
     } else {
         taskInfo.querySelector('.bonus_time').innerHTML = '';
         taskInfo.querySelector('.bonus_reward').innerHTML = '';

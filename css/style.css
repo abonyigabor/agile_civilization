@@ -100,18 +100,15 @@ section.infobar {
           / 1fr    1fr     2fr;
 }
 
-    section.infobar > .points {
-        grid-area: points;
-        background-color: rgba(255,255,255,0.6);
-        font-size: 4vh;
-        text-align: center;
-    }
+    section.infobar > .points {grid-area: points;}
+    section.infobar > .time {grid-area: time;}
 
+    section.infobar > .points,
     section.infobar > .time {
-        grid-area: time;
         background-color: rgba(255,255,255,0.6);
         font-size: 4vh;
         text-align: center;
+        font-weight: bold;
     }
 
     section.infobar > .workers {
@@ -208,7 +205,7 @@ section.infobar {
 
                 section.infobar > .workers > .worker.working > .icon {
                     animation-name: tossing;
-                    animation-duration: 2.5s;	
+                    animation-duration: 0.75s;	
                     animation-iteration-count: infinite;
                 }
 
@@ -228,7 +225,6 @@ section.infobar {
     }
     
         section.infobar > .taskInfo > * {
-            /*border: 1px solid #000;*/
             overflow: hidden;
         }
         
@@ -258,16 +254,26 @@ section.infobar {
 
         section.infobar > .taskInfo > .time {
             grid-area: time;
-            font-size: 4.5vh;
         }
 
         section.infobar > .taskInfo > .bonus_time {
             grid-area: bonus_time;
+        }
+        section.infobar > .taskInfo > .time,
+        section.infobar > .taskInfo > .bonus_time {
             font-size: 4.5vh;
+            text-shadow: #fff 0px 0px 4px;
+            font-weight: bold;
         }
 
         section.infobar > .taskInfo > .bonus_desc {
             grid-area: bonus_desc;
+            font-weight: bold;
+        }
+
+        section.infobar > .taskInfo > .desc {
+            grid-area: desc;
+            font-weight: bold;
         }
 
         section.infobar > .taskInfo > .icon {
@@ -286,19 +292,31 @@ section.infobar {
             section.infobar > .taskInfo.missed > .icon {background-image: url(../images/icon/missed.png);}
             section.infobar > .taskInfo.finished > .icon {background-image: url(../images/icon/done.png);}
 
-        section.infobar > .taskInfo > .desc {
-            grid-area: desc;
-        }
+        section.infobar > .taskInfo > .reward {grid-area: reward;}
+        section.infobar > .taskInfo > .bonus_reward {grid-area: bonus_reward;}
 
-        section.infobar > .taskInfo > .reward {
-            grid-area: reward;
-            font-size: 3.5vh;
-        }
-
+        section.infobar > .taskInfo > .reward,
         section.infobar > .taskInfo > .bonus_reward {
-            grid-area: bonus_reward;
             font-size: 3.5vh;
+            text-shadow: #fff 0px 0px 3px;
+            font-weight: bold;
         }
+
+            section.infobar > .taskInfo.finished > .bonus_reward,
+            section.infobar > .taskInfo.finished > .reward
+            {
+                color: #080;
+                text-shadow: #8f8 0px 0px 3px;
+            }
+
+            section.infobar > .taskInfo > .bonus_reward.missed,
+            section.infobar > .taskInfo.missed > .bonus_reward,
+            section.infobar > .taskInfo.missed > .reward {
+                color: #000;
+                text-shadow: #fff 0px 0px 3px;
+                background: linear-gradient(to left top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%),
+                            linear-gradient(to right top, transparent 47.75%, currentColor 49.5%, currentColor 50.5%, transparent 52.25%);
+            }
 
         section.infobar > .taskInfo > .progress,
         section.infobar > .taskInfo > .progress_state {
@@ -307,6 +325,8 @@ section.infobar {
         
         section.infobar > .taskInfo.unknown > .progress,
         section.infobar > .taskInfo.unknown > .progress_state,
+        section.infobar > .taskInfo.missed > .progress,
+        section.infobar > .taskInfo.missed > .progress_state,
         section.infobar > .taskInfo.finished > .progress,
         section.infobar > .taskInfo.finished > .progress_state {
             display: none;
@@ -365,6 +385,8 @@ section.board {
         
         section.board > .task.unknown > .progress,
         section.board > .task.unknown > .progress_state,
+        section.board > .task.missed > .progress,
+        section.board > .task.missed > .progress_state,
         section.board > .task.finished > .progress,
         section.board > .task.finished > .progress_state {
             display: none;
