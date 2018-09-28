@@ -6,15 +6,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Légy a legagilisabb leader!</title>
 
-    <link rel="stylesheet" href="css/dragula.min.css">
     <link rel="stylesheet" href="css/style.css">
-
-<script src='js/dragula.min.js'></script>
 
 </head>
 <body class="" onload="ready();">
-    <section class="phases-infobar">
-        <div class="resources"></div>
+    <section class="board">
+    </section>
+    <section class="infobar">
         <div class="points">
             <div class="value">
                 <span>999</span>
@@ -25,8 +23,19 @@
                 <span>00:00</span>
             </div>
         </div>
-    </section>
-    <section class="board">
+        <div class="workers"></div>
+        <div class="taskInfo hidden">
+            <span class="name"></span>
+            <span class="time"></span>
+            <span class="bonus_time"></span>
+            <span class="icon"></span>
+            <span class="desc"></span>
+            <span class="reward"></span>
+            <span class="bonus_reward"></span>
+            <span class="bonus_desc"></span>
+            <span class="progress"></span>
+            <span class="progress_state"></span>
+        </div>
     </section>
     <div id="popup" class="loading">
         <div class="popup_text loading_text">
@@ -43,17 +52,19 @@
             <p>FONTOS: Kérj meg egy segítőt, hogy rögzítse a pontjaidat, és segíts másoknak elmagyarázni a szabályokat!</p>
         </div>
     </div>
-<!--<script src='js/engine.js'></script>!-->
+<script src='js/core.js'></script>
+<script src='js/task.js'></script>
+<script src='js/worker.js'></script>
+<script src='js/utility.js'></script>
 
 <script>
 function ready() {
     document.querySelector('#popup').className = "welcome";
-//    init_game();
+    init_game();
+    // For DEBUG
+    start_game();
 }
 
-function start_game() {
-    document.querySelector('#popup').className = "hidden";
-}
 </script>
 </body>
 </html>
